@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: mongodb
-        image: "mutth2512/mongodb:{{ .Values.statefulset.imageVersion }}"
+        image: "mutthu2512/mongodb:{{ .Values.statefulset.imageVersion }}"
         volumeMounts:
         - name: mongodb
           mountPath: /data/db
