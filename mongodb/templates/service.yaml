@@ -3,7 +3,6 @@ kind: Service
 metadata:
   name: mongodb
   namespace: roboshop
-  
   labels:
     app: mongodb
     project: roboshop
@@ -11,11 +10,10 @@ metadata:
 spec:
   ports:
   - protocol: TCP
-    port: 27017 
+    port: 27017 #service-port
     targetPort: 27017
   clusterIP: None
   selector:
     app: mongodb
     project: roboshop
     tier: db
-
