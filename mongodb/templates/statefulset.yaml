@@ -41,7 +41,6 @@ spec:
           storage: 1Gi
 ---
 
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -62,3 +61,4 @@ spec:
     app: mongodb
     project: roboshop
     tier: db
+
