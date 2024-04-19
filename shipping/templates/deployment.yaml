@@ -1,3 +1,4 @@
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -8,7 +9,7 @@ metadata:
     project: roboshop
     tier: app
 spec:
-  replicas: "{{ .Values.deployment.replicas }}"
+  replicas: {{ .Values.deployment.replicas }}
   selector:
     matchLabels: # these labels are used to find the pods
       app: shipping
@@ -39,11 +40,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: shipping
+  name: catalogue
   namespace: roboshop
 spec:
   selector:
-    app: shipping
+    app: catalogue
     project: roboshop
     tier: app
   ports:
