@@ -1,4 +1,3 @@
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -9,7 +8,7 @@ metadata:
     project: roboshop
     tier: app
 spec:
-  replicas: "{{ .Values.deployment.replicas }}"
+  replicas: {{ .Values.deployment.replicas }}
   selector:
     matchLabels: # these labels are used to find the pods
       app: payment
@@ -24,8 +23,15 @@ spec:
     spec:
       containers:
       - name: payment
-        image:  "mutthu2512/payment:{{ .Values.deployment.imageVersion }}"
+        image: "mutthu2512/payment:{{ .Values.deployment.imageVersion }}"
         imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "128Mi"
+          limits:
+            cpu: "100m"
+            memory: "256Mi"
         envFrom:
         - secretRef:
             name: payment
