@@ -1,0 +1,53 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user
+  namespace: roboshop
+  labels: # these labels are deployment labels
+    app: user
+    project: roboshop
+    tier: app
+spec:
+  replicas: "{{ .Values.deployment.replicas }}"
+  selector:
+    matchLabels: # these labels are used to find the pods
+      app: user
+      project: roboshop
+      tier: app
+  template:
+    metadata:
+      labels: # these labels are pod labels
+        app: user
+        project: roboshop
+        tier: app
+    spec:
+      containers:
+      - name: user
+        image: "mutthu2512/user:{{ .Values.deployment.imageVersion }}"
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "128Mi"
+          limits:
+            cpu: "100m"
+            memory: "256Mi"
+        envFrom:
+         - configMapRef:
+             name: user
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user
+  namespace: roboshop
+spec:
+  selector:
+    app: user
+    project: roboshop
+    tier: app
+  ports:
+  - protocol: TCP
+    port: 8080 #service-port
+    targetPort: 8080 #container-port

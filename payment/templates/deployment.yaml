@@ -1,0 +1,46 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment
+  namespace: roboshop
+  labels: # these labels are deployment labels
+    app: payment
+    project: roboshop
+    tier: app
+spec:
+  replicas: "{{ .Values.deployment.replicas }}"
+  selector:
+    matchLabels: # these labels are used to find the pods
+      app: payment
+      project: roboshop
+      tier: app
+  template:
+    metadata:
+      labels: # these labels are pod labels
+        app: payment
+        project: roboshop
+        tier: app
+    spec:
+      containers:
+      - name: payment
+        image:  "mutthu2512/payment:{{ .Values.deployment.imageVersion }}"
+        imagePullPolicy: Always
+        envFrom:
+        - secretRef:
+            name: payment
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment
+  namespace: roboshop
+spec:
+  selector:
+    app: payment
+    project: roboshop
+    tier: app
+  ports:
+  - protocol: TCP
+    port: 8080 #service-port
+    targetPort: 8080 #container-port
